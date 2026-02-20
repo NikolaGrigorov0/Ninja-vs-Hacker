@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class BossController : MonoBehaviour
 {
@@ -10,28 +11,33 @@ public class BossController : MonoBehaviour
 
     public float bugSpawnInterval = 30f;
 
-    private float timer;
+    private float spawnTimer;
+
+    public event Action<int> OnHealthChanged;
 
     void Start()
     {
         currentBars = maxBars;
-        timer = bugSpawnInterval;
+        spawnTimer = bugSpawnInterval;
+        OnHealthChanged?.Invoke(currentBars);
     }
 
     void Update()
     {
-        timer -= Time.deltaTime;
+        spawnTimer -= Time.deltaTime;
 
-        if (timer <= 0f)
+        if (spawnTimer <= 0f)
         {
             SpawnBug();
-            timer = bugSpawnInterval;
+            spawnTimer = bugSpawnInterval;
         }
     }
 
     void SpawnBug()
     {
-        int index = Random.Range(0, bugSpawnPoints.Length);
+        if (bugPrefab == null || bugSpawnPoints == null || bugSpawnPoints.Length == 0) return;
+
+        int index = UnityEngine.Random.Range(0, bugSpawnPoints.Length);
         Instantiate(bugPrefab, bugSpawnPoints[index].position, Quaternion.identity);
     }
 
@@ -41,10 +47,28 @@ public class BossController : MonoBehaviour
 
         Debug.Log("Boss HP bars left: " + currentBars);
 
+        OnHealthChanged?.Invoke(currentBars);
+
+        CameraShake cam = Camera.main?.GetComponent<CameraShake>();
+        if (cam != null)
+        {
+            cam.Shake(0.3f, 0.4f);
+        }
+
         if (currentBars <= 0)
         {
             Die();
         }
+    }
+
+    public int GetCurrentBars()
+    {
+        return currentBars;
+    }
+
+    public float GetNextBugSpawnTime()
+    {
+        return spawnTimer;
     }
 
     void Die()

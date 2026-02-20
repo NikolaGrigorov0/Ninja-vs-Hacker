@@ -7,7 +7,7 @@ public class BugWeakPoint : MonoBehaviour
     public float timeLimit = 7f;
 
     private int currentHits = 0;
-    private float timer;
+    private float startTime;
     private bool active = true;
 
     private BossController boss;
@@ -20,19 +20,21 @@ public class BugWeakPoint : MonoBehaviour
 
     void Start()
     {
-        timer = timeLimit;
+        startTime = Time.time;
         boss = FindFirstObjectByType<BossController>();
         sr = GetComponent<SpriteRenderer>();
 
-        sr.sprite = stage1;
+        if (sr != null && stage1 != null)
+        {
+            sr.sprite = stage1;
+        }
     }
 
     void Update()
     {
         if (!active) return;
 
-        timer -= Time.deltaTime;
-        if (timer <= 0f)
+        if (Time.time - startTime >= timeLimit)
         {
             Fail();
         }
@@ -54,18 +56,23 @@ public class BugWeakPoint : MonoBehaviour
 
     void UpdateSprite()
     {
-        if (currentHits >= 4)
+        if (sr == null) return;
+
+        if (currentHits >= 4 && stage3 != null)
             sr.sprite = stage3;
-        else if (currentHits >= 2)
+        else if (currentHits >= 2 && stage2 != null)
             sr.sprite = stage2;
-        else
+        else if (stage1 != null)
             sr.sprite = stage1;
     }
 
     void Success()
     {
         active = false;
-        boss.DamageBoss();
+        if (boss != null)
+        {
+            boss.DamageBoss();
+        }
         Destroy(gameObject);
     }
 
