@@ -12,11 +12,9 @@ public class PlayerController : MonoBehaviour
     private int brJumped = 0;
     public int maxxbrJumped = 2;
 
-    // ====== ДОБАВЕНО ОТ ПЪРВИЯ КОД ======
     [Header("Attack Settings")]
     public GameObject swordHitbox;
     private bool isAttack;
-    // =====================================
 
     Vector2 moveInput;
     TouchingDirections touchingDirections;
@@ -30,10 +28,7 @@ public class PlayerController : MonoBehaviour
         {
             if (IsMoving && !touchingDirections.IsOnWall)
             {
-                if (IsRunning)
-                    return runSpeed;
-                else
-                    return walkSpeed;
+                return IsRunning ? runSpeed : walkSpeed;
             }
             else
             {
@@ -64,6 +59,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool hitFXInternal = false;
+
+    public bool HitFX
+    {
+        get { return hitFXInternal; }
+        set
+        {
+            hitFXInternal = value;
+            animator.SetBool(AnimationStrings.HitFX, value);
+        }
+    }
+
     public bool _isFacingRight = true;
     public bool IsFacingRight
     {
@@ -86,23 +93,19 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         touchingDirections = GetComponent<TouchingDirections>();
 
-        // ====== ДОБАВЕНО ======
         if (swordHitbox != null)
             swordHitbox.SetActive(false);
-        // ======================
     }
 
     private void Update()
     {
         animator.SetFloat(AnimationStrings.yVelocity, rb.linearVelocity.y);
 
-        // ====== ДОБАВЕНО ======
         if (isAttack)
         {
             StartCoroutine(Attack());
             isAttack = false;
         }
-        // ======================
     }
 
     private void FixedUpdate()
@@ -119,29 +122,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // ====== ДОБАВЕНО ОТ ПЪРВИЯ КОД ======
     IEnumerator Attack()
     {
-        animator.SetTrigger("Attack");
+        animator.SetTrigger(AnimationStrings.HitFX); // стартира анимацията
 
         if (swordHitbox != null)
-            swordHitbox.SetActive(true);
+            swordHitbox.SetActive(true); // включва hitbox
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.3f); // продължителност на атаката
 
         if (swordHitbox != null)
-            swordHitbox.SetActive(false);
+            swordHitbox.SetActive(false); // изключва hitbox
     }
 
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            isAttack = true;
+            HitFX = true;   // сетва анимацията на HitFx
+            isAttack = true; // стартира корутината за атака
         }
     }
-    // ====================================
 
+    public void OnAttackEnd()
+    {
+        if (swordHitbox != null)
+            swordHitbox.SetActive(false); // изключва hitbox
+    }
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
