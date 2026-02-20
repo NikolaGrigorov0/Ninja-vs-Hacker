@@ -7,7 +7,7 @@ public class MenuController : MonoBehaviour
     public void StartGame()
     {
         // Make sure your gameplay scene name matches
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("SampleScene");
     }
 
     // Call this on Quit button click
