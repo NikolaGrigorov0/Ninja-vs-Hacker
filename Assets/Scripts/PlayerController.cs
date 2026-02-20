@@ -100,14 +100,16 @@ public class PlayerController : MonoBehaviour
     IEnumerator Attack()
     {
         // стартираме Trigger в Animator
+
         animator.SetTrigger(AnimationStrings.HitFX);
+        // изчакваме продължителността на атаката
+        yield return new WaitForSeconds(3*attackDuration);
 
         // включваме swordHitbox
         if (swordHitbox != null)
             swordHitbox.SetActive(true);
 
-        // изчакваме продължителността на атаката
-        yield return new WaitForSeconds(attackDuration);
+        yield return new WaitForSeconds(0.1f);
 
         // изключваме swordHitbox
         if (swordHitbox != null)

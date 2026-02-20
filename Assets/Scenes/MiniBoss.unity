@@ -3179,7 +3179,7 @@ GameObject:
   - component: {fileID: 1003746157}
   - component: {fileID: 1003746158}
   - component: {fileID: 1003746159}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MiniBoss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -3370,7 +3370,7 @@ MonoBehaviour:
   maxHealth: 3
   rb: {fileID: 1003746157}
   sr: {fileID: 1323846963}
-  knockbackForce: 3
+  knockbackForce: 0
 --- !u!1 &1050285518
 GameObject:
   m_ObjectHideFlags: 0
@@ -3451,7 +3451,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.4003654, y: -0.010136008}
+  m_Offset: {x: 0.6534221, y: -0.010136008}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3461,7 +3461,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.476384, y: 2.6825488}
+  m_Size: {x: 1.6524234, y: 2.6825488}
   m_EdgeRadius: 0
 --- !u!1 &1057495145
 GameObject:
@@ -32993,6 +32993,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2781654914916003146, guid: b4b95a63cafd6464ebb3ad928bf859fe, type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2781654914916003146, guid: b4b95a63cafd6464ebb3ad928bf859fe, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2781654914916003146, guid: b4b95a63cafd6464ebb3ad928bf859fe, type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3502134951021870437, guid: b4b95a63cafd6464ebb3ad928bf859fe, type: 3}
