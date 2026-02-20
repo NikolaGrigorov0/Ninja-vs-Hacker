@@ -1,16 +1,29 @@
-﻿using System;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections))]
 public class PlayerController : MonoBehaviour
 {
     public float walkSpeed = 5f;
     public float runSpeed = 8f;
     public float jumpImpulse = 10f;
+
     private int brJumped = 0;
     public int maxxbrJumped = 2;
+
+    // ====== ДОБАВЕНО ОТ ПЪРВИЯ КОД ======
+    [Header("Attack Settings")]
+    public GameObject swordHitbox;
+    private bool isAttack;
+    // =====================================
+
     Vector2 moveInput;
     TouchingDirections touchingDirections;
+
+    Rigidbody2D rb;
+    Animator animator;
+
     public float CurrentMoveSpeed
     {
         get
@@ -18,13 +31,9 @@ public class PlayerController : MonoBehaviour
             if (IsMoving && !touchingDirections.IsOnWall)
             {
                 if (IsRunning)
-                {
                     return runSpeed;
-                }
                 else
-                {
                     return walkSpeed;
-                }
             }
             else
             {
@@ -32,32 +41,29 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
     private bool _isMoving = false;
     public bool IsMoving
     {
-        get
-        {
-            return _isMoving;
-        }
+        get { return _isMoving; }
         private set
         {
             _isMoving = value;
             animator.SetBool(AnimationStrings.isMoving, value);
         }
     }
+
     private bool isRunning = false;
     public bool IsRunning
     {
-        get
-        {
-            return isRunning;
-        }
+        get { return isRunning; }
         set
         {
             isRunning = value;
             animator.SetBool(AnimationStrings.isRunning, value);
         }
     }
+
     public bool _isFacingRight = true;
     public bool IsFacingRight
     {
@@ -74,36 +80,72 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    Rigidbody2D rb;
-    Animator animator;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         touchingDirections = GetComponent<TouchingDirections>();
+
+        // ====== ДОБАВЕНО ======
+        if (swordHitbox != null)
+            swordHitbox.SetActive(false);
+        // ======================
+    }
+
+    private void Update()
+    {
+        animator.SetFloat(AnimationStrings.yVelocity, rb.linearVelocity.y);
+
+        // ====== ДОБАВЕНО ======
+        if (isAttack)
+        {
+            StartCoroutine(Attack());
+            isAttack = false;
+        }
+        // ======================
     }
 
     private void FixedUpdate()
     {
-        animator.SetFloat(AnimationStrings.yVelocity, rb.linearVelocity.y);
-
         if (touchingDirections.IsGrounded)
         {
             brJumped = 0;
         }
+
         if (!touchingDirections.IsOnWall)
         {
             SetFacingDirection(moveInput);
             rb.linearVelocity = new Vector2(moveInput.x * CurrentMoveSpeed, rb.linearVelocity.y);
         }
     }
+
+    // ====== ДОБАВЕНО ОТ ПЪРВИЯ КОД ======
+    IEnumerator Attack()
+    {
+        animator.SetTrigger("Attack");
+
+        if (swordHitbox != null)
+            swordHitbox.SetActive(true);
+
+        yield return new WaitForSeconds(0.3f);
+
+        if (swordHitbox != null)
+            swordHitbox.SetActive(false);
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            isAttack = true;
+        }
+    }
+    // ====================================
+
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-
         IsMoving = moveInput != Vector2.zero;
-
         SetFacingDirection(moveInput);
     }
 
