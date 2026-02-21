@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -7,17 +8,28 @@ public class PlayerHealth : MonoBehaviour
     private int currentHealth;
     public Slider healthSlider;
 
+    [Header("Health Bar Images (Optional)")]
+    public Image[] healthBarImages;
+
     public GameObject explosionVFX;
 
     public Animator animator;
     public Rigidbody2D rb;
     public float knockbackForce = 5f;
 
+    public event Action OnDamaged;
+
     void Start()
     {
         currentHealth = maxHealth;
-        healthSlider.maxValue = maxHealth;
-        healthSlider.value = maxHealth;
+        
+        if (healthSlider != null)
+        {
+            healthSlider.maxValue = maxHealth;
+            healthSlider.value = maxHealth;
+        }
+        
+        UpdateHealthBarImages();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -27,23 +39,54 @@ public class PlayerHealth : MonoBehaviour
             TakeDamage(1);
 
             Vector2 hitDir = transform.position.x < collision.transform.position.x ? Vector2.left : Vector2.right;
-            rb.AddForce(new Vector2(hitDir.x * knockbackForce, knockbackForce), ForceMode2D.Impulse);
+            
+            if (rb != null)
+            {
+                rb.AddForce(new Vector2(hitDir.x * knockbackForce, knockbackForce), ForceMode2D.Impulse);
+            }
 
-            animator.SetTrigger("Hurt");
+            if (animator != null)
+            {
+                animator.SetTrigger("Hurt");
+            }
         }
     }
 
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        healthSlider.value = currentHealth;
+        currentHealth = Mathf.Max(0, currentHealth);
+        
+        OnDamaged?.Invoke();
+        
+        if (healthSlider != null)
+        {
+            healthSlider.value = currentHealth;
+        }
+        
+        UpdateHealthBarImages();
 
         if (currentHealth <= 0)
         {
-            //Spawn Explosion VFX 
-            Instantiate(explosionVFX, gameObject.transform.position, Quaternion.identity);
+            if (explosionVFX != null)
+            {
+                Instantiate(explosionVFX, gameObject.transform.position, Quaternion.identity);
+            }
             Debug.Log("Player Died!");
             Destroy(gameObject);
+        }
+    }
+
+    void UpdateHealthBarImages()
+    {
+        if (healthBarImages == null || healthBarImages.Length == 0) return;
+
+        for (int i = 0; i < healthBarImages.Length; i++)
+        {
+            if (healthBarImages[i] != null)
+            {
+                healthBarImages[i].enabled = i < currentHealth;
+            }
         }
     }
 }
