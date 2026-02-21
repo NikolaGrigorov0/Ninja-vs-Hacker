@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -17,11 +18,33 @@ public class PlayerHealth : MonoBehaviour
     public Rigidbody2D rb;
     public float knockbackForce = 5f;
 
+    [Header("Game Over")]
+    public GameOverMenu gameOverMenu;
+
+    [Header("Damage Feedback")]
+    public float damageFeedbackDuration = 0.2f;
+    public Color damageColor = Color.red;
+    public float shakeDuration = 0.15f;
+    public float shakeMagnitude = 0.1f;
+
+    private SpriteRenderer spriteRenderer;
+    private Color originalColor;
+    private Vector3 originalPosition;
+    private bool isDamaged = false;
+
     public event Action OnDamaged;
 
     void Start()
     {
         currentHealth = maxHealth;
+        
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            originalColor = spriteRenderer.color;
+        }
+        
+        originalPosition = transform.localPosition;
         
         if (healthSlider != null)
         {
@@ -63,13 +86,79 @@ public class PlayerHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            if (explosionVFX != null)
-            {
-                Instantiate(explosionVFX, gameObject.transform.position, Quaternion.identity);
-            }
-            Debug.Log("Player Died!");
-            Destroy(gameObject);
+            Die();
         }
+        else
+        {
+            if (!isDamaged)
+            {
+                StartCoroutine(DamageFeedback());
+            }
+        }
+    }
+
+    public void InstantKill()
+    {
+        currentHealth = 0;
+        OnDamaged?.Invoke();
+        
+        if (healthSlider != null)
+        {
+            healthSlider.value = 0;
+        }
+        
+        UpdateHealthBarImages();
+        Die();
+    }
+
+    void Die()
+    {
+        Debug.Log("PlayerHealth: Die() called");
+        
+        if (gameOverMenu != null)
+        {
+            Debug.Log("PlayerHealth: Calling gameOverMenu.ShowGameOver()");
+            gameOverMenu.ShowGameOver();
+        }
+        else
+        {
+            Debug.LogWarning("PlayerHealth: gameOverMenu is not assigned! Game Over won't show.");
+        }
+
+        if (explosionVFX != null)
+        {
+            Instantiate(explosionVFX, gameObject.transform.position, Quaternion.identity);
+        }
+
+        Debug.Log("Player Died!");
+        Destroy(gameObject);
+    }
+
+    IEnumerator DamageFeedback()
+    {
+        isDamaged = true;
+        float elapsed = 0f;
+
+        while (elapsed < damageFeedbackDuration)
+        {
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.color = Color.Lerp(damageColor, originalColor, elapsed / damageFeedbackDuration);
+            }
+
+            transform.localPosition = originalPosition + (Vector3)UnityEngine.Random.insideUnitCircle * shakeMagnitude;
+            
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = originalColor;
+        }
+        transform.localPosition = originalPosition;
+
+        isDamaged = false;
     }
 
     void UpdateHealthBarImages()
