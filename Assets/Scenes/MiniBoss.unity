@@ -3196,6 +3196,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1003746156}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &939462028 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2781654914916003146, guid: b4b95a63cafd6464ebb3ad928bf859fe, type: 3}
+  m_PrefabInstance: {fileID: 8385975313125189744}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1003746153
 GameObject:
   m_ObjectHideFlags: 0
@@ -3376,7 +3381,7 @@ Animator:
   m_GameObject: {fileID: 1003746153}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5b81e3442909ded4da8bd4e114b0b6b8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3400,10 +3405,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c6aad4527ac3654887d92a9668a2000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 3
+  maxHealth: 2
   rb: {fileID: 1003746157}
-  sr: {fileID: 1323846963}
-  knockbackForce: 0
+  sr: {fileID: 1003746155}
+  knockbackForce: 3
 --- !u!114 &1003746160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3419,11 +3424,11 @@ MonoBehaviour:
   walkSpeed: 2
   attackRange: 2
   detectionRange: 10
-  groundCheck: {fileID: 0}
+  groundCheck: {fileID: 912576591}
   groundCheckDistance: 0.2
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
 --- !u!1 &1050285518
 GameObject:
   m_ObjectHideFlags: 0
@@ -3865,17 +3870,41 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3644808882462867962, guid: b4b95a63cafd6464ebb3ad928bf859fe, type: 3}
   m_PrefabInstance: {fileID: 8385975313125189744}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 939462028}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30dda99033a5c8e4bae8a937edc48193, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!212 &1323846963 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 4192765238644467767, guid: b4b95a63cafd6464ebb3ad928bf859fe, type: 3}
+--- !u!95 &1323846966 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1066436352009045745, guid: b4b95a63cafd6464ebb3ad928bf859fe, type: 3}
   m_PrefabInstance: {fileID: 8385975313125189744}
   m_PrefabAsset: {fileID: 0}
+--- !u!50 &1323846968 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 6111728824314871638, guid: b4b95a63cafd6464ebb3ad928bf859fe, type: 3}
+  m_PrefabInstance: {fileID: 8385975313125189744}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1323846969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939462028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 469e0bc0069c7414fbdea8155e71b175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHealth: 20
+  healthSlider: {fileID: 0}
+  healthBarImages: []
+  explosionVFX: {fileID: 0}
+  animator: {fileID: 1323846966}
+  rb: {fileID: 1323846968}
+  knockbackForce: 5
 --- !u!1 &1324910402
 GameObject:
   m_ObjectHideFlags: 0
@@ -33134,7 +33163,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3502134951021870437, guid: b4b95a63cafd6464ebb3ad928bf859fe, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1050285519}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2781654914916003146, guid: b4b95a63cafd6464ebb3ad928bf859fe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1323846969}
   m_SourcePrefab: {fileID: 100100000, guid: b4b95a63cafd6464ebb3ad928bf859fe, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

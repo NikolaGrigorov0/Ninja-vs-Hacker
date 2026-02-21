@@ -42,12 +42,7 @@ public class PlayerHealth : MonoBehaviour
             
             if (rb != null)
             {
-                rb.AddForce(new Vector2(hitDir.x * knockbackForce, knockbackForce), ForceMode2D.Impulse);
-            }
-
-            if (animator != null)
-            {
-                animator.SetTrigger("Hurt");
+                rb.AddForce(new Vector2(hitDir.x * knockbackForce, 0), ForceMode2D.Impulse);
             }
         }
     }

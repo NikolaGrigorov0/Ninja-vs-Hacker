@@ -42,11 +42,18 @@ public class SkeletonAI : MonoBehaviour
             gc.transform.localPosition = new Vector3(0, -1.5f, 0);
             groundCheck = gc.transform;
         }
+
+        transform.rotation = Quaternion.identity;
+        isFacingRight = transform.localScale.x > 0;
     }
 
     void Update()
     {
-        if (player == null) return;
+        if (player == null)
+        {
+            Debug.LogWarning("Skeleton: Player not found!");
+            return;
+        }
 
         CheckGround();
 
@@ -80,10 +87,7 @@ public class SkeletonAI : MonoBehaviour
 
         float direction = Mathf.Sign(player.position.x - transform.position.x);
 
-        if (isGrounded)
-        {
-            rb.linearVelocity = new Vector2(direction * walkSpeed, rb.linearVelocity.y);
-        }
+        rb.linearVelocity = new Vector2(direction * walkSpeed, rb.linearVelocity.y);
 
         if ((direction > 0 && !isFacingRight) || (direction < 0 && isFacingRight))
         {
