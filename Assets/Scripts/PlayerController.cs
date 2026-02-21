@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -127,6 +127,13 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
+        
+        PlayerMovementUnlocker unlocker = FindFirstObjectByType<PlayerMovementUnlocker>();
+        if (unlocker != null)
+        {
+            moveInput = unlocker.FilterMovement(moveInput);
+        }
+        
         IsMoving = moveInput != Vector2.zero;
     }
 
@@ -140,6 +147,12 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        PlayerMovementUnlocker unlocker = FindFirstObjectByType<PlayerMovementUnlocker>();
+        if (unlocker != null && !unlocker.canJump)
+        {
+            return;
+        }
+
         if (context.started && jumpCount < maxJumpCount)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpImpulse);

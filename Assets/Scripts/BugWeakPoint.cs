@@ -81,12 +81,4 @@ public class BugWeakPoint : MonoBehaviour
         active = false;
         Destroy(gameObject);
     }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            TakeHit();
-        }
-    }
 }
