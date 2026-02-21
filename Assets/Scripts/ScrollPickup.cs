@@ -26,7 +26,7 @@ public class ScrollPickup : MonoBehaviour
         PlayerMovementUnlocker unlocker = FindFirstObjectByType<PlayerMovementUnlocker>();
         if (unlocker != null)
         {
-            unlocker.UnlockLeftMovement();
+            PlayerMovementUnlocker.Instance.UnlockJump();
         }
 
         UnlockMessageUI messageUI = FindFirstObjectByType<UnlockMessageUI>();

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DoorTrigger : MonoBehaviour
+public class DoorTrigger2 : MonoBehaviour
 {
     [Header("Door Settings")]
     public string nextSceneName = "SceneLevel3";
