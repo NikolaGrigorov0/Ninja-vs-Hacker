@@ -3,8 +3,8 @@ using UnityEngine;
 public class BugWeakPoint : MonoBehaviour
 {
     [Header("Weak Point")]
-    public int hitsRequired = 5;
-    public float timeLimit = 7f;
+    public int hitsRequired = 3;
+    public float timeLimit = 8f;
 
     private int currentHits = 0;
     private float startTime;
@@ -58,9 +58,9 @@ public class BugWeakPoint : MonoBehaviour
     {
         if (sr == null) return;
 
-        if (currentHits >= 4 && stage3 != null)
+        if (currentHits >= 3 && stage3 != null)
             sr.sprite = stage3;
-        else if (currentHits >= 2 && stage2 != null)
+        else if (currentHits == 2 && stage2 != null)
             sr.sprite = stage2;
         else if (stage1 != null)
             sr.sprite = stage1;
