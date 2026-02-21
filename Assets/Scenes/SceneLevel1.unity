@@ -2854,10 +2854,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -30, y: -15}
-      - {x: 150, y: -15}
-      - {x: 150, y: 30}
-      - {x: -30, y: 30}
+    - - {x: -1000, y: -5}
+      - {x: 1000, y: -5}
+      - {x: 1000, y: 20}
+      - {x: -1000, y: 20}
   m_UseDelaunayMesh: 1
 --- !u!4 &723507043
 Transform:
@@ -4755,6 +4755,11 @@ MonoBehaviour:
   animator: {fileID: 0}
   rb: {fileID: 0}
   knockbackForce: 5
+  gameOverMenu: {fileID: 0}
+  damageFeedbackDuration: 0.2
+  damageColor: {r: 1, g: 0, b: 0, a: 1}
+  shakeDuration: 0.15
+  shakeMagnitude: 0.1
 --- !u!1001 &8385975313125189744
 PrefabInstance:
   m_ObjectHideFlags: 0
