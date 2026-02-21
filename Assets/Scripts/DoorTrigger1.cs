@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class DoorTrigger1 : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class DoorTrigger1 : MonoBehaviour
 
     [Header("Interaction")]
     public bool requireInput = true;
-    public KeyCode interactKey = KeyCode.E;
+    public string interactKey = "E";
 
     private bool playerNearby = false;
     private bool doorOpened = false;
@@ -30,7 +31,7 @@ public class DoorTrigger1 : MonoBehaviour
     {
         if (playerNearby && requireInput && !doorOpened)
         {
-            if (Input.GetKeyDown(interactKey))
+            if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
             {
                 OpenDoor();
             }

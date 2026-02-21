@@ -15,6 +15,10 @@ public class PlayerController : MonoBehaviour
     public GameObject swordHitbox;
     public float attackDuration = 0.3f; // колко дълго swordHitbox е активен
 
+    [Header("Interact Settings")]
+    public float interactRadius = 2f;
+    public LayerMask interactableLayer;
+
     private int jumpCount = 0;
     private bool isAttack = false;
 
@@ -163,6 +167,29 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpImpulse);
             animator.SetTrigger(AnimationStrings.jump);
             jumpCount++;
+        }
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            PlayerMovementUnlocker unlocker = FindFirstObjectByType<PlayerMovementUnlocker>();
+            if (unlocker == null || !unlocker.canInteract)
+            {
+                return;
+            }
+
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, interactRadius, interactableLayer);
+            foreach (Collider2D collider in colliders)
+            {
+                IInteractable interactable = collider.GetComponent<IInteractable>();
+                if (interactable != null)
+                {
+                    interactable.Interact();
+                    break;
+                }
+            }
         }
     }
 

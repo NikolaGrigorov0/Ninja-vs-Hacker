@@ -17,6 +17,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SceneLevel3.unity
     guid: 4aa11fa3021f8ca40a62a8a6691fea56
+  - enabled: 1
+    path: Assets/Scenes/MiniBoss.unity
+    guid: 0074acfcf506dfa438f476a7e46dba2c
+  - enabled: 1
+    path: Assets/Scenes/Boss.unity
+    guid: c93a4c3e9a5e16449b1a961dde20184b
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
