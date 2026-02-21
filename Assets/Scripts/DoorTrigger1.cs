@@ -12,6 +12,7 @@ public class DoorTrigger1 : MonoBehaviour
     [Header("Interaction")]
     public bool requireInput = true;
     public string interactKey = "E";
+    private AudioSource audioSource;
 
     private bool playerNearby = false;
     private bool doorOpened = false;
@@ -19,6 +20,7 @@ public class DoorTrigger1 : MonoBehaviour
 
     void Start()
     {
+         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         
         if (spriteRenderer != null && closedDoorSprite != null)
@@ -33,6 +35,8 @@ public class DoorTrigger1 : MonoBehaviour
         {
             if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
             {
+                            audioSource.Play();
+
                 OpenDoor();
             }
         }
@@ -46,6 +50,8 @@ public class DoorTrigger1 : MonoBehaviour
 
             if (!requireInput)
             {
+                            audioSource.Play();
+
                 OpenDoor();
             }
         }
@@ -62,6 +68,7 @@ public class DoorTrigger1 : MonoBehaviour
     void OpenDoor()
     {
         if (doorOpened) return;
+            audioSource.Play();
 
         doorOpened = true;
 
