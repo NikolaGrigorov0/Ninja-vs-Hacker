@@ -9,6 +9,7 @@ public class EnemyHealth : MonoBehaviour
     public Rigidbody2D rb;
     public SpriteRenderer sr;
     public float knockbackForce = 3f;
+    public GameObject doorToReveal;
 
     private bool isDead = false;
 
@@ -40,6 +41,12 @@ public class EnemyHealth : MonoBehaviour
     void Die()
     {
         isDead = true;
+
+        if (doorToReveal != null)
+        {
+            doorToReveal.SetActive(true);
+            Debug.Log("Door revealed after defeating enemy!");
+        }
 
         SkeletonAI skeletonAI = GetComponent<SkeletonAI>();
         if (skeletonAI != null)

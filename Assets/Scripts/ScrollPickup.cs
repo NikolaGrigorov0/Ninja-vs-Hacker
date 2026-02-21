@@ -7,6 +7,12 @@ public class ScrollPickup : MonoBehaviour
     public float messageDisplayTime = 3f;
     public GameObject doorToReveal;
 
+    [Header("Unlock Type")]
+    public bool unlockLeftMovement = false;
+    public bool unlockJump = false;
+    public bool unlockInteract = false;
+    public bool unlockAttack = false;
+
     private bool collected = false;
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -26,7 +32,25 @@ public class ScrollPickup : MonoBehaviour
         PlayerMovementUnlocker unlocker = FindFirstObjectByType<PlayerMovementUnlocker>();
         if (unlocker != null)
         {
-            PlayerMovementUnlocker.Instance.UnlockJump();
+            if (unlockLeftMovement)
+            {
+                unlocker.UnlockLeftMovement();
+            }
+            
+            if (unlockJump)
+            {
+                unlocker.UnlockJump();
+            }
+            
+            if (unlockInteract)
+            {
+                unlocker.UnlockInteract();
+            }
+            
+            if (unlockAttack)
+            {
+                unlocker.UnlockAttack();
+            }
         }
 
         UnlockMessageUI messageUI = FindFirstObjectByType<UnlockMessageUI>();

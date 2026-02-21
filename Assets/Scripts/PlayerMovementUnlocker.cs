@@ -7,6 +7,8 @@ public class PlayerMovementUnlocker : MonoBehaviour
     public bool canMoveLeft = false;
     public bool canMoveRight = true;
     public bool canJump = false;
+    public bool canInteract = false;
+    public bool canAttack = false;
 
     void Awake()
     {
@@ -30,6 +32,18 @@ public class PlayerMovementUnlocker : MonoBehaviour
     {
         canJump = true;
         Debug.Log("Jump unlocked!");
+    }
+
+    public void UnlockInteract()
+    {
+        canInteract = true;
+        Debug.Log("Interact unlocked! You can now interact with objects using 'E'.");
+    }
+
+    public void UnlockAttack()
+    {
+        canAttack = true;
+        Debug.Log("Attack unlocked! You can now attack with Mouse Click!");
     }
 
     public Vector2 FilterMovement(Vector2 input)

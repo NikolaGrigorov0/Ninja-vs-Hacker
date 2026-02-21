@@ -103,13 +103,12 @@ public class PlayerController : MonoBehaviour
 
         animator.SetTrigger(AnimationStrings.HitFX);
         // изчакваме продължителността на атаката
-        yield return new WaitForSeconds(3 * attackDuration);
 
         // включваме swordHitbox
         if (swordHitbox != null)
             swordHitbox.SetActive(true);
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(attackDuration);
 
         // изключваме swordHitbox
         if (swordHitbox != null)
@@ -120,7 +119,13 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started)
         {
-            isAttack = true; // стартира корутината
+            PlayerMovementUnlocker unlocker = FindFirstObjectByType<PlayerMovementUnlocker>();
+            if (unlocker == null || !unlocker.canAttack)
+            {
+                return;
+            }
+
+            isAttack = true;
         }
     }
 
