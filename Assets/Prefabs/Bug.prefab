@@ -124,12 +124,12 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 1.5
 --- !u!114 &2529087712840194854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,8 +142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1848fb952c1d5af44bf29a96b16e21fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BugWeakPoint
-  hitsRequired: 5
-  timeLimit: 7
+  hitsRequired: 3
+  timeLimit: 8
   stage1: {fileID: 21300000, guid: 829d6e141e3d8064ea8cb2377a619920, type: 3}
   stage2: {fileID: 21300000, guid: 50b7ee70271d7294c8fc312cc705a46f, type: 3}
   stage3: {fileID: 21300000, guid: 8c5724b82f5d35d4ab018bebb2e10f6c, type: 3}
