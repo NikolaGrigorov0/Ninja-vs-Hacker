@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (touchingDirections.IsGrounded)
+        if (touchingDirections.IsGrounded && rb.linearVelocity.y <= 0f)
             jumpCount = 0;
 
         if (!touchingDirections.IsOnWall)
@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
 
         animator.SetTrigger(AnimationStrings.HitFX);
         // изчакваме продължителността на атаката
-        yield return new WaitForSeconds(3*attackDuration);
+        yield return new WaitForSeconds(3 * attackDuration);
 
         // включваме swordHitbox
         if (swordHitbox != null)
